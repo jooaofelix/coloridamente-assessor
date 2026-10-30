@@ -1,0 +1,84 @@
+{% extends "base.html" %}
+{% load assessor %}
+
+{% block titulo %}{{ cliente.nome }}{% endblock %}
+
+{% block conteudo %}
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="{% url 'clientes:lista' %}">Clientes</a></li>
+    <li class="breadcrumb-item active" aria-current="page">{{ cliente.nome }}</li>
+  </ol>
+</nav>
+
+<div class="cabecalho-pagina tema-clientes">
+  <div>
+    <h1 class="h3 mb-0">{{ cliente.nome }}</h1>
+    <p class="text-body-secondary mb-0">Cliente desde {{ cliente.criado_em|date:"d/m/Y" }}</p>
+  </div>
+  <div class="d-flex flex-wrap gap-2">
+    <a class="btn btn-primary" href="{% url 'vendas:nova' %}?cliente={{ cliente.pk }}"><i class="bi bi-bag-plus"></i> Nova venda</a>
+    <a class="btn btn-outline-secondary" href="{% url 'clientes:editar' cliente.pk %}"><i class="bi bi-pencil"></i> Editar</a>
+    <a class="btn btn-outline-danger" href="{% url 'clientes:excluir' cliente.pk %}"><i class="bi bi-trash"></i> Excluir</a>
+  </div>
+</div>
+
+<div class="row g-4">
+  <div class="col-lg-4">
+    <div class="card h-100">
+      <div class="card-body">
+        <h2 class="h6 text-uppercase text-body-secondary mb-3">Dados do cliente</h2>
+        <dl class="dados mb-0">
+          <dt>CPF</dt><dd>{{ cliente.cpf_formatado|default:"—" }}</dd>
+          <dt>Aniversário</dt>
+          <dd>
+            {% if cliente.data_nascimento %}
+              {{ cliente.data_nascimento|date:"d/m/Y" }} <span class="text-body-secondary">({{ cliente.idade }} anos)</span>
+            {% else %}—{% endif %}
+          </dd>
+          <dt>E-mail</dt>
+          <dd>{% if cliente.email %}<a href="mailto:{{ cliente.email }}">{{ cliente.email }}</a>{% else %}—{% endif %}</dd>
+          <dt>Endereço</dt><dd>{{ cliente.endereco|default:"—" }}</dd>
+          <dt>Cidade/Estado</dt><dd>{{ cliente.cidade_estado|default:"—" }}</dd>
+        </dl>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-lg-8">
+    <div class="card h-100">
+      <div class="card-body">
+        <div class="d-flex justify-content-between align-items-baseline mb-3">
+          <h2 class="h6 text-uppercase text-body-secondary mb-0">Histórico de compras</h2>
+          {% if vendas %}
+            <span class="small text-body-secondary">{{ vendas|length }} compra{{ vendas|length|pluralize }} · <strong class="text-body">{{ total_comprado|brl }}</strong></span>
+          {% endif %}
+        </div>
+        {% if vendas %}
+          <div class="table-responsive">
+            <table class="table table-sm align-middle mb-0">
+              <thead>
+                <tr><th>Data</th><th>Produtos</th><th class="text-end">Total</th></tr>
+              </thead>
+              <tbody>
+                {% for venda in vendas %}
+                  <tr>
+                    <td class="text-nowrap"><a href="{{ venda.get_absolute_url }}">{{ venda.data|date:"d/m/Y" }}</a></td>
+                    <td>{% for item in venda.itens.all %}{{ item.quantidade }}× {{ item.produto }}{% if not forloop.last %}, {% endif %}{% endfor %}</td>
+                    <td class="text-end text-nowrap">{{ venda.total|brl }}</td>
+                  </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+        {% else %}
+          <div class="vazio vazio-compacto">
+            <i class="bi bi-bag"></i>
+            <p>Nenhuma compra registrada para este cliente.</p>
+          </div>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

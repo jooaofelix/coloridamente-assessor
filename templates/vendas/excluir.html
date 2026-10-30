@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% load assessor %}
+
+{% block titulo %}Excluir venda #{{ object.pk }}{% endblock %}
+
+{% block conteudo %}
+<div class="card cartao-confirmacao mx-auto">
+  <div class="card-body p-4">
+    <h1 class="h4">Excluir venda #{{ object.pk }}?</h1>
+    <p>
+      A venda de <strong>{{ object.data|date:"d/m/Y" }}</strong> para <strong>{{ object.cliente.nome }}</strong>
+      ({{ object.total|brl }}) será apagada, junto com os produtos registrados nela. Essa ação não pode ser desfeita.
+    </p>
+    <form method="post" class="d-flex gap-2">
+      {% csrf_token %}
+      <button class="btn btn-danger" type="submit">Excluir</button>
+      <a class="btn btn-outline-secondary" href="{{ object.get_absolute_url }}">Cancelar</a>
+    </form>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,241 @@
+/* Assessor Coloridamente — identidade visual sobre o Bootstrap 5 */
+
+:root {
+  --cor-roxo: #7b3fe4;
+  --cor-azul: #2f80ed;
+  --cor-rosa: #e8457c;
+  --cor-laranja: #f7931e;
+  --cor-amarelo: #f6c445;
+  --cor-verde: #1fb58f;
+
+  --bs-body-bg: #f7f6fb;
+  --bs-body-font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --bs-link-color: #5a2bc0;
+  --bs-link-color-rgb: 90, 43, 192;
+  --bs-link-hover-color: #43208f;
+  --bs-link-hover-color-rgb: 67, 32, 143;
+  --bs-border-radius: .6rem;
+  --bs-focus-ring-color: rgba(123, 63, 228, .25);
+}
+
+.btn-primary {
+  --bs-btn-bg: var(--cor-roxo);
+  --bs-btn-border-color: var(--cor-roxo);
+  --bs-btn-hover-bg: #6530c6;
+  --bs-btn-hover-border-color: #6530c6;
+  --bs-btn-active-bg: #5526ab;
+  --bs-btn-active-border-color: #5526ab;
+  --bs-btn-disabled-bg: var(--cor-roxo);
+  --bs-btn-disabled-border-color: var(--cor-roxo);
+  --bs-btn-focus-shadow-rgb: 123, 63, 228;
+}
+
+.btn-outline-primary {
+  --bs-btn-color: #5a2bc0;
+  --bs-btn-border-color: #b9a0ef;
+  --bs-btn-hover-bg: var(--cor-roxo);
+  --bs-btn-hover-border-color: var(--cor-roxo);
+  --bs-btn-active-bg: #5526ab;
+  --bs-btn-active-border-color: #5526ab;
+  --bs-btn-focus-shadow-rgb: 123, 63, 228;
+}
+
+.form-control:focus,
+.form-select:focus {
+  border-color: #b9a0ef;
+  box-shadow: 0 0 0 .25rem var(--bs-focus-ring-color);
+}
+
+.page-link { color: #5a2bc0; }
+
+/* Faixa colorida no topo */
+.faixa-colorida {
+  height: 5px;
+  background: linear-gradient(90deg,
+    var(--cor-rosa), var(--cor-laranja), var(--cor-amarelo),
+    var(--cor-verde), var(--cor-azul), var(--cor-roxo));
+}
+
+/* Marca */
+.marca {
+  font-weight: 800;
+  letter-spacing: -.02em;
+  color: #2b2340;
+}
+.marca span {
+  background: linear-gradient(90deg, var(--cor-rosa), var(--cor-laranja), var(--cor-verde), var(--cor-azul), var(--cor-roxo));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+.marca small {
+  font-size: .7rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: .12em;
+  color: var(--bs-secondary-color);
+  margin-left: .35rem;
+}
+
+/* Abas: cada frente tem sua cor */
+.abas .nav-link {
+  font-weight: 500;
+  border-bottom: 3px solid transparent;
+  padding-left: .75rem !important;
+  padding-right: .75rem !important;
+}
+.abas .aba-inicio   { --cor-aba: var(--cor-roxo); }
+.abas .aba-clientes { --cor-aba: var(--cor-azul); }
+.abas .aba-vendas   { --cor-aba: var(--cor-rosa); }
+.abas .aba-produtos { --cor-aba: var(--cor-laranja); }
+.abas .nav-link:hover { color: var(--cor-aba); }
+.abas .nav-link.active {
+  color: var(--cor-aba);
+  border-bottom-color: var(--cor-aba);
+}
+@media (min-width: 768px) {
+  .navbar { padding-top: 0; padding-bottom: 0; }
+  .abas .nav-link { padding-top: 1.1rem; padding-bottom: calc(1.1rem - 3px); }
+}
+
+/* Cabeçalho das páginas */
+.cabecalho-pagina {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+  padding-left: .9rem;
+  border-left: 4px solid var(--cor-tema, var(--cor-roxo));
+}
+.tema-inicio       { --cor-tema: var(--cor-roxo); }
+.tema-clientes     { --cor-tema: var(--cor-azul); }
+.tema-vendas       { --cor-tema: var(--cor-rosa); }
+.tema-produtos     { --cor-tema: var(--cor-laranja); }
+.tema-faturamento  { --cor-tema: var(--cor-verde); }
+
+/* Cartões */
+.card {
+  border-color: #ebe8f3;
+  box-shadow: 0 1px 2px rgba(43, 35, 64, .04);
+}
+.table > thead th {
+  font-size: .75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: .04em;
+  color: var(--bs-secondary-color);
+  background: transparent;
+}
+.card > .table-responsive > .table > :not(caption) > * > *:first-child { padding-left: 1rem; }
+.card > .table-responsive > .table > :not(caption) > * > *:last-child { padding-right: 1rem; }
+
+/* Indicadores da página inicial */
+.indicador {
+  text-decoration: none;
+  color: inherit;
+  border-top: 4px solid var(--cor-tema);
+  transition: transform .15s ease, box-shadow .15s ease;
+}
+a.indicador:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(43, 35, 64, .08);
+}
+.indicador .rotulo {
+  display: block;
+  font-size: .85rem;
+  color: var(--bs-secondary-color);
+}
+.indicador .rotulo .bi { color: var(--cor-tema); }
+.indicador .valor {
+  display: block;
+  font-size: 1.9rem;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  margin-top: .25rem;
+}
+
+/* Listas da página inicial */
+.lista-aniversariantes li,
+.lista-vendas li {
+  display: flex;
+  align-items: center;
+  gap: .75rem;
+  padding: .55rem 0;
+  border-bottom: 1px solid #f0edf6;
+}
+.lista-aniversariantes li:last-child,
+.lista-vendas li:last-child { border-bottom: 0; }
+.lista-aniversariantes .dia {
+  font-variant-numeric: tabular-nums;
+  font-weight: 600;
+  color: var(--cor-rosa);
+  min-width: 3rem;
+}
+.lista-aniversariantes li.passou { opacity: .55; }
+.lista-aniversariantes li.hoje { font-weight: 600; }
+.lista-vendas .stretched-link-wrapper {
+  flex: 1;
+  min-width: 0;
+  color: inherit;
+  text-decoration: none;
+}
+.lista-vendas .stretched-link-wrapper:hover .fw-semibold { color: var(--bs-link-color); }
+
+/* Dados (ficha do cliente / venda) */
+.dados dt {
+  font-size: .75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: .04em;
+  color: var(--bs-secondary-color);
+}
+.dados dd { margin-bottom: .9rem; }
+.dados dd:last-child { margin-bottom: 0; }
+
+/* Estado vazio */
+.vazio {
+  text-align: center;
+  padding: 3rem 1rem;
+  color: var(--bs-secondary-color);
+}
+.vazio .bi { font-size: 2.2rem; display: block; margin-bottom: .5rem; color: #cfc6e4; }
+.vazio-compacto { padding: 1.5rem 1rem; }
+.vazio p { margin-bottom: .75rem; }
+
+/* Formulário de venda */
+.cabecalho-itens {
+  font-size: .75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: .04em;
+  color: var(--bs-secondary-color);
+  margin-bottom: .35rem;
+}
+.item-venda { padding: .5rem 0; }
+.item-venda + .item-venda { border-top: 1px dashed #e6e1f0; }
+@media (min-width: 768px) {
+  .item-venda { padding: .25rem 0; }
+  .item-venda + .item-venda { border-top: 0; }
+}
+.item-venda .subtotal {
+  display: inline-block;
+  font-variant-numeric: tabular-nums;
+  padding-top: .4rem;
+}
+@media (max-width: 767.98px) {
+  .item-venda .subtotal { padding-top: .45rem; }
+  .botao-remover { width: 100%; }
+}
+.total-venda { font-size: 1.15rem; }
+.total-venda strong { font-variant-numeric: tabular-nums; }
+
+/* Produtos */
+.descricao-produto { max-width: 28rem; }
+.formulario-estreito { max-width: 46rem; }
+
+/* Telas de confirmação e login */
+.cartao-confirmacao { max-width: 34rem; }
+.pagina-login main { padding-top: 12vh; }
+.cartao-login { max-width: 24rem; }

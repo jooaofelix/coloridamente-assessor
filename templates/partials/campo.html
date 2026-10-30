@@ -1,0 +1,17 @@
+<div class="{{ classe|default:'col-12' }}">
+  {% if campo.widget_type == "checkbox" %}
+    <div class="form-check">
+      {{ campo }}
+      <label class="form-check-label" for="{{ campo.id_for_label }}">{{ campo.label|capfirst }}</label>
+      {% for erro in campo.errors %}<div class="invalid-feedback">{{ erro }}</div>{% endfor %}
+      {% if campo.help_text %}<div class="form-text">{{ campo.help_text }}</div>{% endif %}
+    </div>
+  {% else %}
+    <label class="form-label" for="{{ campo.id_for_label }}">
+      {{ campo.label|capfirst }}{% if campo.field.required %} <span class="text-danger" title="obrigatório">*</span>{% endif %}
+    </label>
+    {{ campo }}
+    {% for erro in campo.errors %}<div class="invalid-feedback">{{ erro }}</div>{% endfor %}
+    {% if campo.help_text %}<div class="form-text">{{ campo.help_text }}</div>{% endif %}
+  {% endif %}
+</div>
