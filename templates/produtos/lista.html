@@ -13,6 +13,7 @@
 </div>
 
 <form class="busca mb-3" method="get" role="search">
+  {% if categoria_atual %}<input type="hidden" name="categoria" value="{{ categoria_atual }}">{% endif %}
   <div class="input-group">
     <span class="input-group-text"><i class="bi bi-search"></i></span>
     <input class="form-control" type="search" name="q" value="{{ busca }}"
@@ -21,6 +22,13 @@
   </div>
 </form>
 
+<nav class="filtros mb-3" aria-label="Filtrar por categoria">
+  <a class="filtro {% if not categoria_atual %}ativo{% endif %}" href="?{% if busca %}q={{ busca|urlencode }}{% endif %}">Todas</a>
+  {% for valor, nome in categorias %}
+    <a class="filtro {% if categoria_atual == valor %}ativo{% endif %}" href="?categoria={{ valor }}{% if busca %}&q={{ busca|urlencode }}{% endif %}">{{ nome }}</a>
+  {% endfor %}
+</nav>
+
 <div class="card">
   {% if object_list %}
     <div class="table-responsive">
@@ -28,6 +36,7 @@
         <thead>
           <tr>
             <th>Produto</th>
+            <th>Categoria</th>
             <th class="text-end">Preço</th>
             <th class="text-center">Vendidos</th>
             <th>Situação</th>
@@ -38,16 +47,19 @@
           {% for produto in object_list %}
             <tr class="{% if not produto.ativo %}text-body-secondary{% endif %}">
               <td>
-                <span class="fw-semibold">{{ produto.nome }}</span>
+                <span class="fw-bold">{{ produto.nome }}</span>
                 {% if produto.descricao %}<span class="d-block small text-body-secondary text-truncate descricao-produto">{{ produto.descricao }}</span>{% endif %}
               </td>
-              <td class="text-end text-nowrap">{{ produto.preco|brl }}</td>
+              <td class="text-nowrap small">{{ produto.get_categoria_display|default:"—" }}</td>
+              <td class="text-end text-nowrap">
+                {% if produto.preco is not None %}{{ produto.preco|brl }}{% else %}<span class="text-body-secondary">Sob orçamento</span>{% endif %}
+              </td>
               <td class="text-center">{{ produto.qtd_vendida|default:0 }}</td>
               <td>
                 {% if produto.ativo %}
-                  <span class="badge rounded-pill text-bg-success">Disponível</span>
+                  <span class="badge selo selo-disponivel">Disponível</span>
                 {% else %}
-                  <span class="badge rounded-pill text-bg-secondary">Fora de venda</span>
+                  <span class="badge selo">Fora de venda</span>
                 {% endif %}
               </td>
               <td class="text-end text-nowrap">
@@ -62,9 +74,9 @@
   {% else %}
     <div class="vazio">
       <i class="bi bi-box-seam"></i>
-      {% if busca %}
-        <p>Nenhum produto encontrado para “{{ busca }}”.</p>
-        <a href="{% url 'produtos:lista' %}">Limpar busca</a>
+      {% if busca or categoria_atual %}
+        <p>Nenhum produto encontrado.</p>
+        <a href="{% url 'produtos:lista' %}">Ver todos os produtos</a>
       {% else %}
         <p>Nenhum produto cadastrado ainda.</p>
         <a class="btn btn-primary" href="{% url 'produtos:novo' %}">Cadastrar o primeiro produto</a>

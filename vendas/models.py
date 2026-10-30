@@ -17,6 +17,13 @@ class Venda(models.Model):
         DEBITO = "debito", "Cartão de débito"
         OUTRO = "outro", "Outro"
 
+    # As mesmas ocasiões apresentadas no site da Linha Office.
+    class Ocasiao(models.TextChoices):
+        BOAS_VINDAS = "boas-vindas", "Boas-vindas à equipe"
+        PRESENTES = "presentes", "Presentes para clientes"
+        EVENTOS = "eventos", "Eventos e feiras"
+        DIA_A_DIA = "dia-a-dia", "Dia a dia do escritório"
+
     # PROTECT: um cliente com vendas registradas não pode ser excluído.
     cliente = models.ForeignKey(
         Cliente, verbose_name="cliente", on_delete=models.PROTECT, related_name="vendas"
@@ -25,6 +32,7 @@ class Venda(models.Model):
     forma_pagamento = models.CharField(
         "forma de pagamento", max_length=20, choices=FormaPagamento.choices, blank=True
     )
+    ocasiao = models.CharField("ocasião", max_length=20, choices=Ocasiao.choices, blank=True)
     observacoes = models.TextField("observações do atendimento", blank=True)
     criado_em = models.DateTimeField("registrada em", auto_now_add=True)
     atualizado_em = models.DateTimeField("atualizada em", auto_now=True)

@@ -4,6 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>{% block titulo %}Início{% endblock %} · Assessor Coloridamente</title>
+  <link rel="preload" href="{% static 'vendor/lato/lato-latin-400-normal.woff2' %}" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="{% static 'vendor/bootstrap/bootstrap.min.css' %}">
   <link rel="stylesheet" href="{% static 'vendor/bootstrap-icons/bootstrap-icons.min.css' %}">
   <link rel="stylesheet" href="{% static 'css/assessor.css' %}">
@@ -11,11 +12,11 @@
 <body>
   <div class="faixa-colorida" aria-hidden="true"></div>
 
-  <nav class="navbar navbar-expand-md bg-body border-bottom">
+  <nav class="navbar navbar-expand-md cabecalho">
     <div class="container">
       <a class="navbar-brand marca" href="{% url 'core:inicio' %}">
-        colorida<span>mente</span>
-        <small>assessor</small>
+        <img src="{% static 'brand/logo-coloridamente.svg' %}" alt="Coloridamente" width="99" height="40">
+        <span class="marca-assessor">Assessor</span>
       </a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#menu"
               aria-controls="menu" aria-expanded="false" aria-label="Abrir menu">

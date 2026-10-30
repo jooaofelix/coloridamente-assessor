@@ -12,6 +12,19 @@
     });
   });
 
+  // Máscara de telefone/WhatsApp: (00) 00000-0000 ou (00) 0000-0000
+  document.querySelectorAll('[data-mascara="telefone"]').forEach(function (campo) {
+    campo.addEventListener("input", function () {
+      var d = campo.value.replace(/\D/g, "").slice(0, 11);
+      if (d.length <= 2) {
+        campo.value = d ? "(" + d : "";
+        return;
+      }
+      var meio = d.length === 11 ? 7 : 6;
+      campo.value = "(" + d.slice(0, 2) + ") " + d.slice(2, meio) + (d.length > meio ? "-" + d.slice(meio) : "");
+    });
+  });
+
   // Ao abrir uma janela de cadastro, o cursor já vai para o primeiro campo.
   document.addEventListener("shown.bs.modal", function (evento) {
     var campo = evento.target.querySelector("input:not([type=hidden]), select, textarea");
@@ -118,12 +131,13 @@
   }
 
   // Ao escolher o produto, o valor unitário vem do cadastro (dá para alterar).
+  // Produto sob orçamento (sem preço): o campo fica vazio para ser preenchido.
   function aplicarPreco(item) {
     var seletor = item.querySelector('[data-campo="produto"]');
     var opcao = seletor.options[seletor.selectedIndex];
-    if (opcao && opcao.dataset.preco) {
-      item.querySelector('[data-campo="valor"]').value = opcao.dataset.preco;
-    }
+    var valor = item.querySelector('[data-campo="valor"]');
+    valor.value = opcao && opcao.dataset.preco ? opcao.dataset.preco : "";
+    if (opcao && opcao.value && !opcao.dataset.preco) valor.focus();
   }
 
   function adicionarItem() {
@@ -176,7 +190,7 @@
     seletores.push(modelo.content.querySelector('[data-campo="produto"]'));
     seletores.forEach(function (seletor) {
       var opcao = new Option(dados.nome, dados.id);
-      opcao.dataset.preco = dados.preco;
+      if (dados.preco) opcao.dataset.preco = dados.preco;
       seletor.add(opcao);
     });
 

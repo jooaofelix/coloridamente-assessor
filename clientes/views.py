@@ -25,10 +25,15 @@ class ClienteListView(LoginRequiredMixin, generic.ListView):
         clientes = Cliente.objects.annotate(qtd_vendas=Count("vendas")).order_by("nome")
         busca = self.request.GET.get("q", "").strip()
         if busca:
-            filtro = Q(nome__icontains=busca) | Q(email__icontains=busca) | Q(cidade__icontains=busca)
+            filtro = (
+                Q(nome__icontains=busca)
+                | Q(empresa__icontains=busca)
+                | Q(email__icontains=busca)
+                | Q(cidade__icontains=busca)
+            )
             digitos = somente_digitos(busca)
             if digitos:
-                filtro |= Q(cpf__contains=digitos)
+                filtro |= Q(cpf__contains=digitos) | Q(whatsapp__contains=digitos)
             clientes = clientes.filter(filtro)
         return clientes
 

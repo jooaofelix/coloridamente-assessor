@@ -27,11 +27,16 @@ class ProdutoListView(LoginRequiredMixin, generic.ListView):
         busca = self.request.GET.get("q", "").strip()
         if busca:
             produtos = produtos.filter(Q(nome__icontains=busca) | Q(descricao__icontains=busca))
+        categoria = self.request.GET.get("categoria")
+        if categoria in Produto.Categoria.values:
+            produtos = produtos.filter(categoria=categoria)
         return produtos
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["busca"] = self.request.GET.get("q", "").strip()
+        context["categorias"] = Produto.Categoria.choices
+        context["categoria_atual"] = self.request.GET.get("categoria", "")
         return context
 
 
@@ -76,5 +81,9 @@ class ProdutoDeleteView(LoginRequiredMixin, generic.DeleteView):
 def produto_rapido(request):
     return responder_cadastro_rapido(
         ProdutoRapidoForm(request.POST),
-        lambda produto: {"id": produto.pk, "nome": produto.nome, "preco": str(produto.preco)},
+        lambda produto: {
+            "id": produto.pk,
+            "nome": produto.nome,
+            "preco": None if produto.preco is None else str(produto.preco),
+        },
     )

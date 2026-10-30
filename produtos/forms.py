@@ -8,13 +8,17 @@ from .models import Produto
 class ProdutoForm(BootstrapFormMixin, forms.ModelForm):
     class Meta:
         model = Produto
-        fields = ["nome", "preco", "descricao", "ativo"]
+        fields = ["nome", "categoria", "preco", "descricao", "ativo"]
         labels = {"preco": "Preço (R$)"}
         widgets = {
             "nome": forms.TextInput(attrs={"autofocus": True}),
             "preco": forms.NumberInput(attrs={"min": 0, "step": "0.01", "placeholder": "0,00"}),
             "descricao": forms.Textarea(attrs={"rows": 3}),
         }
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields["categoria"].choices = [("", "Sem categoria"), *Produto.Categoria.choices]
 
     def clean_nome(self):
         nome = " ".join(self.cleaned_data["nome"].split())
@@ -30,7 +34,7 @@ class ProdutoRapidoForm(ProdutoForm):
     prefix = "novo_produto"
 
     class Meta(ProdutoForm.Meta):
-        fields = ["nome", "preco", "descricao"]
+        fields = ["nome", "categoria", "preco", "descricao"]
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)

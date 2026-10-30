@@ -55,6 +55,19 @@ class ClienteFormTests(TestCase):
         self.assertFalse(form.is_valid())
         self.assertEqual(form.errors["cpf"], ["Já existe um cliente com este CPF."])
 
+    def test_whatsapp_com_mascara_e_salvo_so_com_digitos(self):
+        form = ClienteForm(data={"nome": "Ana", "whatsapp": "+55 (12) 99133-8866"})
+        self.assertTrue(form.is_valid(), form.errors)
+        cliente = form.save()
+        self.assertEqual(cliente.whatsapp, "12991338866")
+        self.assertEqual(cliente.whatsapp_formatado, "(12) 99133-8866")
+        self.assertEqual(cliente.whatsapp_link, "https://wa.me/5512991338866")
+
+    def test_whatsapp_incompleto_e_recusado(self):
+        form = ClienteForm(data={"nome": "Ana", "whatsapp": "99133-8866"})
+        self.assertFalse(form.is_valid())
+        self.assertIn("whatsapp", form.errors)
+
     def test_varios_clientes_sem_cpf(self):
         for nome in ("Ana", "Bia"):
             form = ClienteForm(data={"nome": nome, "cpf": ""})
@@ -81,6 +94,9 @@ class ClienteViewTests(TestCase):
         self.assertRedirects(resposta, cliente.get_absolute_url())
 
         resposta = self.client.get(reverse("clientes:lista"), {"q": "529.982"})
+        self.assertContains(resposta, "Maria Souza")
+        Cliente.objects.filter(pk=cliente.pk).update(empresa="AEA Contabilidade")
+        resposta = self.client.get(reverse("clientes:lista"), {"q": "contabilidade"})
         self.assertContains(resposta, "Maria Souza")
         resposta = self.client.get(reverse("clientes:lista"), {"q": "joão"})
         self.assertNotContains(resposta, "Maria Souza")

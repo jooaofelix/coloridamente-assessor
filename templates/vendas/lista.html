@@ -38,7 +38,7 @@
         <tbody>
           {% for venda in object_list %}
             <tr>
-              <td><a class="fw-semibold link-underline link-underline-opacity-0" href="{{ venda.get_absolute_url }}">#{{ venda.pk }}</a></td>
+              <td><a class="fw-bold link-underline link-underline-opacity-0" href="{{ venda.get_absolute_url }}">#{{ venda.pk }}</a></td>
               <td class="text-nowrap">{{ venda.data|date:"d/m/Y" }}</td>
               <td><a href="{{ venda.cliente.get_absolute_url }}">{{ venda.cliente.nome }}</a></td>
               <td>{% for item in venda.itens.all %}{{ item.quantidade }}× {{ item.produto }}{% if not forloop.last %}, {% endif %}{% endfor %}</td>

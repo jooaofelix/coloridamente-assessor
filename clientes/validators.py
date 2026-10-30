@@ -30,3 +30,21 @@ def formatar_cpf(valor):
     if len(cpf) != 11:
         return valor or ""
     return f"{cpf[:3]}.{cpf[3:6]}.{cpf[6:9]}-{cpf[9:]}"
+
+
+def formatar_telefone(valor):
+    numero = somente_digitos(valor)
+    if numero.startswith("55") and len(numero) in (12, 13):
+        numero = numero[2:]
+    if len(numero) == 11:
+        return f"({numero[:2]}) {numero[2:7]}-{numero[7:]}"
+    if len(numero) == 10:
+        return f"({numero[:2]}) {numero[2:6]}-{numero[6:]}"
+    return valor or ""
+
+
+def link_whatsapp(valor):
+    numero = somente_digitos(valor)
+    if len(numero) in (10, 11):
+        numero = "55" + numero
+    return f"https://wa.me/{numero}" if numero else ""

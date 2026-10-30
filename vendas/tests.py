@@ -54,6 +54,20 @@ class VendaTests(TestCase):
         self.assertEqual(venda.itens.get(produto=self.quadro).valor_unitario, Decimal("120.00"))
         self.assertEqual(venda.total, Decimal("180.00"))
 
+    def test_produto_sob_orcamento_exige_valor(self):
+        agenda = Produto.objects.get(nome="Agenda 2027")
+        dados = dados_venda(self.cliente, [{"produto": agenda.pk, "quantidade": 50, "valor_unitario": ""}])
+        resposta = self.client.post(reverse("vendas:nova"), dados)
+        self.assertContains(resposta, "Informe o valor: este produto é sob orçamento.")
+        self.assertFalse(Venda.objects.exists())
+
+        dados["itens-0-valor_unitario"] = "42.00"
+        dados["ocasiao"] = "boas-vindas"
+        self.client.post(reverse("vendas:nova"), dados)
+        venda = Venda.objects.get()
+        self.assertEqual(venda.total, Decimal("2100.00"))
+        self.assertEqual(venda.get_ocasiao_display(), "Boas-vindas à equipe")
+
     def test_venda_sem_produto_e_recusada(self):
         resposta = self.client.post(
             reverse("vendas:nova"),

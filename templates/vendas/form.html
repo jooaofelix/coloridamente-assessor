@@ -29,7 +29,7 @@
 
   <div class="card mb-3">
     <div class="card-body">
-      <h2 class="h6 text-uppercase text-body-secondary mb-3">Atendimento</h2>
+      <h2 class="rotulo-secao">Atendimento</h2>
       <div class="row g-3">
         <div class="col-md-6">
           <label class="form-label" for="{{ form.cliente.id_for_label }}">Cliente <span class="text-danger" title="obrigatório">*</span></label>
@@ -43,13 +43,14 @@
         </div>
         {% include "partials/campo.html" with campo=form.data classe="col-sm-6 col-md-3" %}
         {% include "partials/campo.html" with campo=form.forma_pagamento classe="col-sm-6 col-md-3" %}
+        {% include "partials/campo.html" with campo=form.ocasiao classe="col-md-6" %}
       </div>
     </div>
   </div>
 
   <div class="card mb-3">
     <div class="card-body">
-      <h2 class="h6 text-uppercase text-body-secondary mb-3">Produtos vendidos</h2>
+      <h2 class="rotulo-secao">Produtos vendidos</h2>
 
       {% if formset.non_form_errors %}
         <div class="alert alert-danger py-2">{% for erro in formset.non_form_errors %}{{ erro }} {% endfor %}</div>

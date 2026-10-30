@@ -1,6 +1,7 @@
 <div class="row g-3">
-  {% include "partials/campo.html" with campo=form.nome classe="col-sm-8" %}
-  {% include "partials/campo.html" with campo=form.preco classe="col-sm-4" %}
+  {% include "partials/campo.html" with campo=form.nome classe="col-12" %}
+  {% include "partials/campo.html" with campo=form.categoria classe="col-sm-7" %}
+  {% include "partials/campo.html" with campo=form.preco classe="col-sm-5" %}
   {% include "partials/campo.html" with campo=form.descricao classe="col-12" %}
   {% if form.ativo %}
     {% include "partials/campo.html" with campo=form.ativo classe="col-12" %}

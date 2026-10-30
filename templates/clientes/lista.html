@@ -15,7 +15,7 @@
   <div class="input-group">
     <span class="input-group-text"><i class="bi bi-search"></i></span>
     <input class="form-control" type="search" name="q" value="{{ busca }}"
-           placeholder="Buscar por nome, CPF, e-mail ou cidade" aria-label="Buscar clientes">
+           placeholder="Buscar por nome, empresa, CPF, WhatsApp, e-mail ou cidade" aria-label="Buscar clientes">
     <button class="btn btn-outline-secondary" type="submit">Buscar</button>
   </div>
 </form>
@@ -27,6 +27,7 @@
         <thead>
           <tr>
             <th>Nome</th>
+            <th>WhatsApp</th>
             <th>CPF</th>
             <th class="text-center">Idade</th>
             <th>Aniversário</th>
@@ -38,13 +39,17 @@
         <tbody>
           {% for cliente in object_list %}
             <tr>
-              <td><a class="fw-semibold link-underline link-underline-opacity-0" href="{{ cliente.get_absolute_url }}">{{ cliente.nome }}</a></td>
+              <td>
+                <a class="fw-bold link-underline link-underline-opacity-0" href="{{ cliente.get_absolute_url }}">{{ cliente.nome }}</a>
+                {% if cliente.empresa %}<span class="d-block small text-body-secondary">{{ cliente.empresa }}</span>{% endif %}
+              </td>
+              <td class="text-nowrap">{{ cliente.whatsapp_formatado|default:"—" }}</td>
               <td class="text-nowrap">{{ cliente.cpf_formatado|default:"—" }}</td>
               <td class="text-center">{{ cliente.idade|default_if_none:"—" }}</td>
               <td class="text-nowrap">{{ cliente.data_nascimento|date:"d/m"|default:"—" }}</td>
               <td>{{ cliente.cidade_estado|default:"—" }}</td>
               <td>{{ cliente.email|default:"—" }}</td>
-              <td class="text-center"><span class="badge rounded-pill text-bg-light">{{ cliente.qtd_vendas }}</span></td>
+              <td class="text-center"><span class="badge contador">{{ cliente.qtd_vendas }}</span></td>
             </tr>
           {% endfor %}
         </tbody>

@@ -14,7 +14,7 @@
 <div class="cabecalho-pagina tema-clientes">
   <div>
     <h1 class="h3 mb-0">{{ cliente.nome }}</h1>
-    <p class="text-body-secondary mb-0">Cliente desde {{ cliente.criado_em|date:"d/m/Y" }}</p>
+    <p class="text-body-secondary mb-0">{% if cliente.empresa %}{{ cliente.empresa }} · {% endif %}Cliente desde {{ cliente.criado_em|date:"d/m/Y" }}</p>
   </div>
   <div class="d-flex flex-wrap gap-2">
     <a class="btn btn-primary" href="{% url 'vendas:nova' %}?cliente={{ cliente.pk }}"><i class="bi bi-bag-plus"></i> Nova venda</a>
@@ -27,8 +27,16 @@
   <div class="col-lg-4">
     <div class="card h-100">
       <div class="card-body">
-        <h2 class="h6 text-uppercase text-body-secondary mb-3">Dados do cliente</h2>
+        <h2 class="rotulo-secao">Dados do cliente</h2>
         <dl class="dados mb-0">
+          <dt>WhatsApp</dt>
+          <dd>
+            {% if cliente.whatsapp %}
+              {{ cliente.whatsapp_formatado }}
+              <a class="ms-1 small" href="{{ cliente.whatsapp_link }}" target="_blank" rel="noopener">Abrir conversa<span class="visually-hidden"> (abre o WhatsApp)</span></a>
+            {% else %}—{% endif %}
+          </dd>
+          <dt>Empresa</dt><dd>{{ cliente.empresa|default:"—" }}</dd>
           <dt>CPF</dt><dd>{{ cliente.cpf_formatado|default:"—" }}</dd>
           <dt>Aniversário</dt>
           <dd>
@@ -49,7 +57,7 @@
     <div class="card h-100">
       <div class="card-body">
         <div class="d-flex justify-content-between align-items-baseline mb-3">
-          <h2 class="h6 text-uppercase text-body-secondary mb-0">Histórico de compras</h2>
+          <h2 class="rotulo-secao mb-0">Histórico de compras</h2>
           {% if vendas %}
             <span class="small text-body-secondary">{{ vendas|length }} compra{{ vendas|length|pluralize }} · <strong class="text-body">{{ total_comprado|brl }}</strong></span>
           {% endif %}

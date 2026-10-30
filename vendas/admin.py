@@ -11,8 +11,8 @@ class ItemVendaInline(admin.TabularInline):
 
 @admin.register(Venda)
 class VendaAdmin(admin.ModelAdmin):
-    list_display = ["id", "data", "cliente", "forma_pagamento", "total"]
-    list_filter = ["data", "forma_pagamento"]
+    list_display = ["id", "data", "cliente", "ocasiao", "forma_pagamento", "total"]
+    list_filter = ["data", "ocasiao", "forma_pagamento"]
     search_fields = ["cliente__nome", "itens__produto__nome"]
     autocomplete_fields = ["cliente"]
     inlines = [ItemVendaInline]

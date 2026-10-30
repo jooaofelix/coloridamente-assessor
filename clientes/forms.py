@@ -17,12 +17,23 @@ class ClienteForm(BootstrapFormMixin, forms.ModelForm):
         ),
     )
 
+    whatsapp = forms.CharField(
+        label="WhatsApp",
+        required=False,
+        max_length=20,
+        widget=forms.TextInput(
+            attrs={"placeholder": "(00) 00000-0000", "inputmode": "tel", "data-mascara": "telefone"}
+        ),
+    )
+
     class Meta:
         model = Cliente
         fields = [
             "nome",
+            "empresa",
             "cpf",
             "data_nascimento",
+            "whatsapp",
             "email",
             "endereco",
             "cidade",
@@ -38,8 +49,19 @@ class ClienteForm(BootstrapFormMixin, forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields["estado"].choices = [("", "Selecione…"), *Cliente.Estado.choices]
-        if self.instance.cpf and not self.is_bound:
-            self.initial["cpf"] = self.instance.cpf_formatado
+        if not self.is_bound:
+            if self.instance.cpf:
+                self.initial["cpf"] = self.instance.cpf_formatado
+            if self.instance.whatsapp:
+                self.initial["whatsapp"] = self.instance.whatsapp_formatado
+
+    def clean_whatsapp(self):
+        numero = somente_digitos(self.cleaned_data.get("whatsapp"))
+        if numero.startswith("55") and len(numero) in (12, 13):
+            numero = numero[2:]
+        if numero and len(numero) not in (10, 11):
+            raise forms.ValidationError("Informe o DDD e o número, por exemplo (11) 91234-5678.")
+        return numero
 
     def clean_cpf(self):
         cpf = somente_digitos(self.cleaned_data.get("cpf"))

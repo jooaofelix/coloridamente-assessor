@@ -47,14 +47,14 @@
   <div class="col-lg-5">
     <div class="card h-100">
       <div class="card-body">
-        <h2 class="h6 text-uppercase text-body-secondary mb-3"><i class="bi bi-cake2"></i> Aniversariantes de {{ hoje|date:"F"|lower }}</h2>
+        <h2 class="rotulo-secao"><i class="bi bi-cake2"></i> Aniversariantes de {{ hoje|date:"F"|lower }}</h2>
         {% if aniversariantes %}
           <ul class="list-unstyled lista-aniversariantes mb-0">
             {% for cliente in aniversariantes %}
               <li class="{% if cliente.dia == hoje.day %}hoje{% elif cliente.dia < hoje.day %}passou{% endif %}">
                 <span class="dia">{{ cliente.data_nascimento|date:"d/m" }}</span>
                 <a href="{{ cliente.get_absolute_url }}">{{ cliente.nome }}</a>
-                {% if cliente.dia == hoje.day %}<span class="badge rounded-pill text-bg-warning ms-auto">Hoje!</span>{% endif %}
+                {% if cliente.dia == hoje.day %}<span class="badge selo selo-hoje ms-auto">Hoje!</span>{% endif %}
               </li>
             {% endfor %}
           </ul>
@@ -72,7 +72,7 @@
     <div class="card h-100">
       <div class="card-body">
         <div class="d-flex justify-content-between align-items-baseline mb-3">
-          <h2 class="h6 text-uppercase text-body-secondary mb-0"><i class="bi bi-clock-history"></i> Últimas vendas</h2>
+          <h2 class="rotulo-secao mb-0"><i class="bi bi-clock-history"></i> Últimas vendas</h2>
           <a class="small" href="{% url 'vendas:lista' %}">Ver todas</a>
         </div>
         {% if ultimas_vendas %}

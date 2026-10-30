@@ -28,7 +28,7 @@
   <div class="col-lg-8">
     <div class="card">
       <div class="card-body">
-        <h2 class="h6 text-uppercase text-body-secondary mb-3">Produtos vendidos</h2>
+        <h2 class="rotulo-secao">Produtos vendidos</h2>
         <div class="table-responsive">
           <table class="table align-middle mb-0">
             <thead>
@@ -64,10 +64,11 @@
   <div class="col-lg-4">
     <div class="card">
       <div class="card-body">
-        <h2 class="h6 text-uppercase text-body-secondary mb-3">Atendimento</h2>
+        <h2 class="rotulo-secao">Atendimento</h2>
         <dl class="dados mb-0">
           <dt>Cliente</dt><dd><a href="{{ venda.cliente.get_absolute_url }}">{{ venda.cliente.nome }}</a></dd>
           <dt>Data</dt><dd>{{ venda.data|date:"d/m/Y" }}</dd>
+          <dt>Ocasião</dt><dd>{{ venda.get_ocasiao_display|default:"—" }}</dd>
           <dt>Forma de pagamento</dt><dd>{{ venda.get_forma_pagamento_display|default:"—" }}</dd>
           <dt>Observações</dt><dd>{{ venda.observacoes|linebreaksbr|default:"—" }}</dd>
         </dl>

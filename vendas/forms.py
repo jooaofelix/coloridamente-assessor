@@ -10,7 +10,7 @@ from .models import ItemVenda, Venda
 class VendaForm(BootstrapFormMixin, forms.ModelForm):
     class Meta:
         model = Venda
-        fields = ["cliente", "data", "forma_pagamento", "observacoes"]
+        fields = ["cliente", "data", "ocasiao", "forma_pagamento", "observacoes"]
         widgets = {
             "data": forms.DateInput(attrs={"type": "date"}, format="%Y-%m-%d"),
             "observacoes": forms.Textarea(
@@ -22,6 +22,7 @@ class VendaForm(BootstrapFormMixin, forms.ModelForm):
         super().__init__(*args, **kwargs)
         self.fields["cliente"].empty_label = "Escolha o cliente…"
         self.fields["forma_pagamento"].choices = [("", "Não informada"), *Venda.FormaPagamento.choices]
+        self.fields["ocasiao"].choices = [("", "Não informada"), *Venda.Ocasiao.choices]
 
 
 class ProdutoSelect(forms.Select):
@@ -30,7 +31,7 @@ class ProdutoSelect(forms.Select):
     def create_option(self, name, value, label, selected, index, subindex=None, attrs=None):
         option = super().create_option(name, value, label, selected, index, subindex, attrs)
         produto = getattr(value, "instance", None)
-        if produto is not None:
+        if produto is not None and produto.preco is not None:
             option["attrs"]["data-preco"] = str(produto.preco)
         return option
 
@@ -59,10 +60,13 @@ class ItemVendaForm(BootstrapFormMixin, forms.ModelForm):
 
     def clean(self):
         dados = super().clean()
-        # Valor em branco: usa o preço cadastrado do produto.
+        # Valor em branco: usa o preço cadastrado do produto, se houver.
         produto = dados.get("produto")
         if produto and dados.get("valor_unitario") is None:
-            dados["valor_unitario"] = produto.preco
+            if produto.preco is None:
+                self.add_error("valor_unitario", "Informe o valor: este produto é sob orçamento.")
+            else:
+                dados["valor_unitario"] = produto.preco
         return dados
 
 
