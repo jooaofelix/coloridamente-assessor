@@ -1,0 +1,12 @@
+{
+  "name": "coloridamente-assessor",
+  "private": true,
+  "description": "Assessor Coloridamente: vendas, clientes e produtos (site estático + Firebase Firestore).",
+  "scripts": {
+    "dev": "node tests/servidor.mjs",
+    "test": "playwright test"
+  },
+  "devDependencies": {
+    "@playwright/test": "1.63.0"
+  }
+}

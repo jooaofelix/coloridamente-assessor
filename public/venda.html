@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Venda · Assessor Coloridamente</title>
+<link rel="preload" href="vendor/lato/lato-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="vendor/bootstrap/bootstrap.min.css">
+<link rel="stylesheet" href="vendor/bootstrap-icons/bootstrap-icons.min.css">
+<link rel="stylesheet" href="css/assessor.css">
+</head>
+<body>
+<header id="cabecalho" data-aba="vendas"></header>
+<script src="js/firebase-config.js"></script>
+<script src="js/util.js"></script>
+<script src="js/layout.js"></script>
+
+<main class="container py-4">
+<nav aria-label="Caminho">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="vendas.html">Vendas</a></li>
+    <li class="breadcrumb-item active" aria-current="page" id="migalha">Venda</li>
+  </ol>
+</nav>
+<div id="venda"><div class="vazio vazio-compacto" data-carregando><span class="spinner-border spinner-border-sm" aria-hidden="true"></span> Carregando…</div></div>
+</main>
+<script src="vendor/bootstrap/bootstrap.bundle.min.js"></script>
+<script src="js/banco.js"></script>
+<script src="js/clientes-store.js"></script>
+<script src="js/produtos-store.js"></script>
+<script src="js/vendas-store.js"></script>
+<script src="js/app-venda.js"></script>
+</body>
+</html>

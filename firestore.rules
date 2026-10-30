@@ -1,0 +1,29 @@
+rules_version = '2';
+
+// Regras do Firestore do Assessor Coloridamente.
+// O assessor não tem login (como o sistema da AEA), então as regras liberam
+// apenas as coleções que ele usa e conferem o formato básico dos registros.
+// Para restringir quem abre o assessor, use o Cloudflare Access (veja o README).
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /clientes/{id} {
+      allow read, delete: if true;
+      allow create, update: if request.resource.data.nome is string
+        && request.resource.data.nome.size() > 0;
+    }
+    match /produtos/{id} {
+      allow read, delete: if true;
+      allow create, update: if request.resource.data.nome is string
+        && request.resource.data.nome.size() > 0;
+    }
+    match /vendas/{id} {
+      allow read, delete: if true;
+      allow create, update: if request.resource.data.clienteId is string
+        && request.resource.data.itens is list
+        && request.resource.data.itens.size() > 0;
+    }
+    match /configuracoes/{id} {
+      allow read, write: if true;
+    }
+  }
+}

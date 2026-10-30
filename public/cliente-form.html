@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cliente · Assessor Coloridamente</title>
+<link rel="preload" href="vendor/lato/lato-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="vendor/bootstrap/bootstrap.min.css">
+<link rel="stylesheet" href="vendor/bootstrap-icons/bootstrap-icons.min.css">
+<link rel="stylesheet" href="css/assessor.css">
+</head>
+<body>
+<header id="cabecalho" data-aba="clientes"></header>
+<script src="js/firebase-config.js"></script>
+<script src="js/util.js"></script>
+<script src="js/layout.js"></script>
+
+<main class="container py-4">
+<nav aria-label="Caminho">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="clientes.html">Clientes</a></li>
+    <li class="breadcrumb-item active" aria-current="page" data-titulo>Novo cliente</li>
+  </ol>
+</nav>
+
+<div class="cabecalho-pagina tema-clientes">
+  <h1 class="h3 mb-0" data-titulo>Novo cliente</h1>
+</div>
+
+<form id="form-cliente" novalidate class="">
+  <div class="card mb-4">
+    <div class="card-body" data-campos></div>
+  </div>
+  <div class="d-flex gap-2">
+    <button class="btn btn-primary" type="submit"><i class="bi bi-check-lg" aria-hidden="true"></i> Salvar</button>
+    <a class="btn btn-outline-secondary" href="clientes.html" id="cancelar">Cancelar</a>
+  </div>
+</form>
+</main>
+<script src="vendor/bootstrap/bootstrap.bundle.min.js"></script>
+<script src="js/banco.js"></script>
+<script src="js/clientes-store.js"></script>
+<script src="js/produtos-store.js"></script>
+<script src="js/vendas-store.js"></script>
+<script src="js/formularios.js"></script>
+<script src="js/app-cliente-form.js"></script>
+</body>
+</html>
